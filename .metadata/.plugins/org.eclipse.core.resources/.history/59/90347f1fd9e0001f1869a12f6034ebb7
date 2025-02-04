@@ -1,0 +1,18 @@
+package com.membermap.controller;
+
+import com.membermap.service.HuggingFaceService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/huggingface")
+@RequiredArgsConstructor
+public class HuggingFaceController {
+
+    private final HuggingFaceService huggingFaceService;
+
+    @PostMapping("/analyze")
+    public String analyzeText(@RequestBody String text) {
+        return huggingFaceService.analyzeText(text);
+    }
+}

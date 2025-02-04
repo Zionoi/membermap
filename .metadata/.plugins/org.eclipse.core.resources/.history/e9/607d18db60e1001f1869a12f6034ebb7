@@ -1,0 +1,55 @@
+package com.membermap.domain;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "MEMBERS")
+public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String email;
+    private String name;
+
+    // 회원의 주소 정보 또는 지역명을 저장 (예: "서울", "부산" 등)
+    private String region;
+
+    // 기본 생성자
+    public Member() {}
+
+    // 생성자, getter, setter 생략 (롬복 사용 가능)
+    
+    public Member(String email, String name, String region) {
+        this.email = email;
+        this.name = name;
+        this.region = region;
+    }
+
+    // Getter & Setter
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getRegion() {
+        return region;
+    }
+    public void setRegion(String region) {
+        this.region = region;
+    }
+}

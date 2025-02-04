@@ -1,0 +1,5 @@
+package com.membermap.controller;
+
+public class HuggingFaceController {
+
+}

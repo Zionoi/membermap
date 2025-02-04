@@ -1,0 +1,5 @@
+package com.membermap.config;
+
+public class SecurityConfig {
+
+}

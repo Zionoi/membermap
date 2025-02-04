@@ -1,0 +1,5 @@
+package com.membermap.service;
+
+public class HuggingFaceService {
+
+}

@@ -1,0 +1,5 @@
+package com.membermap.repository;
+
+public interface MemberRepository {
+
+}

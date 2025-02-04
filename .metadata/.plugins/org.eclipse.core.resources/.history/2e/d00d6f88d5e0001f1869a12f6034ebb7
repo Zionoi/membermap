@@ -1,0 +1,39 @@
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Service
+public class HuggingFaceService {
+
+    private final WebClient webClient;
+
+    @Value("${huggingface.api-key}")
+    private String apiKey;
+
+    public HuggingFaceService(@Value("${huggingface.api-key}") String apiKey) {
+        this.webClient = WebClient.builder()
+                .baseUrl("https://api-inference.huggingface.co/models")
+                .defaultHeader("Authorization", "Bearer " + apiKey) // API 키 추가
+                .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE) // JSON 요청
+                .build();
+    }
+
+    public String analyzeText(String inputText) {
+        String model = "bert-base-uncased";  // 모델 이름 변경 가능
+
+        List<Map<String, String>> requestBody = List.of(Map.of("inputs", inputText));
+
+        return webClient.post()
+                .uri("/" + model)  // 잘못된 URI 수정 필요
+                .header("Authorization", "Bearer " + apiKey)  // API 키 필수
+                .bodyValue(requestBody)  // 리스트 형태의 JSON 요청
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+    }
+
+}

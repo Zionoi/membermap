@@ -1,0 +1,42 @@
+package com.membermap.service;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.MediaType;
+import java.util.Map;
+
+@Service
+public class HuggingFaceService {
+
+    private final WebClient webClient;
+    
+    @Value("${huggingface.api-key}")
+    private String apiKey;
+
+    // WebClient를 생성할 때 API 키 포함
+    public HuggingFaceService(@Value("${huggingface.api-key}") String apiKey) {
+        this.webClient = WebClient.builder()
+                .baseUrl("https://api-inference.huggingface.co/models")
+                .defaultHeader("Authorization", "Bearer " + apiKey) // API 키 설정
+                .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE) // JSON 형식 설정
+                .build();
+    }
+
+    public String analyzeText(String inputText) {
+        // 사용할 Hugging Face 모델 지정
+        String model = "bert-base-uncased";
+
+        // 요청 데이터 (JSON 형식)
+        Map<String, String> request = Map.of("inputs", inputText);
+
+        // API 호출 및 응답 반환
+        return webClient.post()
+                .uri("/" + model)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(request) // 올바른 JSON 데이터 전달
+                .retrieve()
+                .bodyToMono(String.class)
+                .block(); // 동기 처리
+    }
+}
